@@ -1,0 +1,337 @@
+/* ==========================================
+   SIMPLE CALCULATOR — DESIGN SYSTEM & STYLES
+   ========================================== */
+
+/* ------------------------------------------
+   1. CSS Custom Properties (Theme Variables)
+   ------------------------------------------ */
+:root {
+  /* Color Palette - Modern Refined Light Theme */
+  --bg-gradient-start: #f8fafc;
+  --bg-gradient-end: #e2e8f0;
+  
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --card-border: rgba(226, 232, 240, 0.8);
+  --card-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.12), 
+                 0 0 1px 1px rgba(15, 23, 42, 0.05);
+
+  --display-bg: #f1f5f9;
+  --display-border: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* Button Colors */
+  --btn-digit-bg: #ffffff;
+  --btn-digit-text: #1e293b;
+  --btn-digit-border: #e2e8f0;
+  --btn-digit-hover: #f8fafc;
+
+  --btn-utility-bg: #f1f5f9;
+  --btn-utility-text: #475569;
+  --btn-utility-border: #e2e8f0;
+  --btn-utility-hover: #e2e8f0;
+
+  --btn-operator-bg: #eff6ff;
+  --btn-operator-text: #2563eb;
+  --btn-operator-border: #bfdbfe;
+  --btn-operator-hover: #dbeafe;
+  --btn-operator-active: #2563eb;
+  --btn-operator-active-text: #ffffff;
+
+  --btn-equals-bg: #2563eb;
+  --btn-equals-text: #ffffff;
+  --btn-equals-hover: #1d4ed8;
+  --btn-equals-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.35);
+
+  /* Typography */
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-primary: 2.5rem;   /* ~40px */
+  --font-size-secondary: 1rem;   /* 16px */
+  --font-size-button: 1.25rem;   /* 20px */
+
+  /* Spacing & Layout */
+  --radius-card: 24px;
+  --radius-display: 16px;
+  --radius-button: 14px;
+  --gap-grid: 12px;
+  --touch-target-min: 48px;
+
+  /* Transitions */
+  --transition-fast: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-medium: all 0.2s ease;
+}
+
+/* ------------------------------------------
+   2. Reset & Global Styles
+   ------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-main);
+  background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------
+   3. Calculator Layout Container
+   ------------------------------------------ */
+.calculator-wrapper {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  justify-content: center;
+}
+
+.calculator-card {
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ------------------------------------------
+   4. Display Area Styling
+   ------------------------------------------ */
+.calculator-display {
+  background: var(--display-bg);
+  border: 1px solid var(--display-border);
+  border-radius: var(--radius-display);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  min-height: 110px;
+  word-break: break-all;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+.display-secondary {
+  font-size: var(--font-size-secondary);
+  font-weight: 400;
+  color: var(--text-secondary);
+  min-height: 24px;
+  line-height: 1.4;
+  text-align: right;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.85;
+}
+
+.display-primary {
+  font-size: var(--font-size-primary);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+  text-align: right;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  letter-spacing: -0.5px;
+  transition: font-size var(--transition-medium);
+}
+
+/* Auto font size modifiers for long numbers */
+.display-primary.font-small {
+  font-size: 1.75rem;
+}
+
+.display-primary.font-xsmall {
+  font-size: 1.35rem;
+}
+
+.display-primary.font-micro {
+  font-size: 1.05rem;
+}
+
+.display-primary.error-text {
+  color: #dc2626;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+/* ------------------------------------------
+   5. Keypad Grid & Button Styles
+   ------------------------------------------ */
+.calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap-grid);
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  outline: none;
+  font-family: var(--font-main);
+  font-size: var(--font-size-button);
+  font-weight: 500;
+  min-height: var(--touch-target-min);
+  height: 56px;
+  border-radius: var(--radius-button);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+/* Focus State for Accessibility */
+.btn:focus-visible {
+  outline: 2px solid var(--btn-operator-active);
+  outline-offset: 2px;
+}
+
+/* Active / Pressed Micro-animation */
+.btn:active, .btn.btn-pressed {
+  transform: scale(0.95);
+}
+
+/* Digit Buttons (0-9, .) */
+.btn-digit {
+  background-color: var(--btn-digit-bg);
+  color: var(--btn-digit-text);
+  border-color: var(--btn-digit-border);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+.btn-digit:hover {
+  background-color: var(--btn-digit-hover);
+  border-color: #cbd5e1;
+}
+
+/* Utility Buttons (AC, ⌫, %, ±) */
+.btn-utility {
+  background-color: var(--btn-utility-bg);
+  color: var(--btn-utility-text);
+  border-color: var(--btn-utility-border);
+}
+
+.btn-utility:hover {
+  background-color: var(--btn-utility-hover);
+  color: #1e293b;
+}
+
+/* Operator Buttons (+, −, ×, ÷) */
+.btn-operator {
+  background-color: var(--btn-operator-bg);
+  color: var(--btn-operator-text);
+  border-color: var(--btn-operator-border);
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.btn-operator:hover {
+  background-color: var(--btn-operator-hover);
+}
+
+/* Selected Active Operator State */
+.btn-operator.is-active {
+  background-color: var(--btn-operator-active);
+  color: var(--btn-operator-active-text);
+  border-color: var(--btn-operator-active);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Equals Button (=) */
+.btn-equals {
+  background-color: var(--btn-equals-bg);
+  color: var(--btn-equals-text);
+  border-color: var(--btn-equals-bg);
+  font-weight: 600;
+  font-size: 1.4rem;
+  box-shadow: var(--btn-equals-shadow);
+}
+
+.btn-equals:hover {
+  background-color: var(--btn-equals-hover);
+  border-color: var(--btn-equals-hover);
+}
+
+/* ------------------------------------------
+   6. Responsive Layout Breakpoints
+   ------------------------------------------ */
+/* Mobile Viewports (≤ 480px) */
+@media (max-width: 480px) {
+  body {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .calculator-wrapper {
+    max-width: 100%;
+  }
+
+  .calculator-card {
+    padding: 16px;
+    border-radius: 20px;
+    gap: 16px;
+  }
+
+  .calculator-display {
+    min-height: 96px;
+    padding: 12px 16px;
+  }
+
+  :root {
+    --font-size-primary: 2.25rem;
+    --gap-grid: 10px;
+  }
+
+  .btn {
+    height: 52px;
+    border-radius: 12px;
+    font-size: 1.15rem;
+  }
+}
+
+/* Tablet Viewports (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .calculator-wrapper {
+    max-width: 360px;
+  }
+}

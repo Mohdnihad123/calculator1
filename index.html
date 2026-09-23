@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simple, elegant, and precise web calculator for fast everyday arithmetic. Supports mouse, touch, and keyboard input.">
+  <title>Simple Calculator — Fast & Accurate Web Calculator</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main class="calculator-wrapper">
+    <section class="calculator-card" aria-label="Simple Calculator" role="region">
+      
+      <!-- Hidden H1 for SEO and semantic document structure -->
+      <h1 class="sr-only">Simple Calculator Application</h1>
+
+      <!-- Display Panel Area -->
+      <div class="calculator-display" id="calculator-display" aria-live="polite">
+        <div class="display-secondary" id="secondary-display" aria-label="Running Expression"></div>
+        <div class="display-primary" id="primary-display" aria-label="Current Value">0</div>
+      </div>
+
+      <!-- Keypad Grid -->
+      <div class="calculator-grid" role="group" aria-label="Calculator Keyboard">
+        <!-- Row 1: Utility Functions & Division -->
+        <button type="button" class="btn btn-utility" id="btn-clear" data-action="clear" aria-label="Clear All (AC)">AC</button>
+        <button type="button" class="btn btn-utility" id="btn-backspace" data-action="backspace" aria-label="Backspace">⌫</button>
+        <button type="button" class="btn btn-utility" id="btn-percent" data-action="percent" aria-label="Percentage">%</button>
+        <button type="button" class="btn btn-operator" id="btn-divide" data-action="operator" data-value="/" aria-label="Divide">÷</button>
+
+        <!-- Row 2: Digits 7, 8, 9 & Multiplication -->
+        <button type="button" class="btn btn-digit" id="btn-7" data-action="digit" data-value="7" aria-label="7">7</button>
+        <button type="button" class="btn btn-digit" id="btn-8" data-action="digit" data-value="8" aria-label="8">8</button>
+        <button type="button" class="btn btn-digit" id="btn-9" data-action="digit" data-value="9" aria-label="9">9</button>
+        <button type="button" class="btn btn-operator" id="btn-multiply" data-action="operator" data-value="*" aria-label="Multiply">×</button>
+
+        <!-- Row 3: Digits 4, 5, 6 & Subtraction -->
+        <button type="button" class="btn btn-digit" id="btn-4" data-action="digit" data-value="4" aria-label="4">4</button>
+        <button type="button" class="btn btn-digit" id="btn-5" data-action="digit" data-value="5" aria-label="5">5</button>
+        <button type="button" class="btn btn-digit" id="btn-6" data-action="digit" data-value="6" aria-label="6">6</button>
+        <button type="button" class="btn btn-operator" id="btn-subtract" data-action="operator" data-value="-" aria-label="Subtract">−</button>
+
+        <!-- Row 4: Digits 1, 2, 3 & Addition -->
+        <button type="button" class="btn btn-digit" id="btn-1" data-action="digit" data-value="1" aria-label="1">1</button>
+        <button type="button" class="btn btn-digit" id="btn-2" data-action="digit" data-value="2" aria-label="2">2</button>
+        <button type="button" class="btn btn-digit" id="btn-3" data-action="digit" data-value="3" aria-label="3">3</button>
+        <button type="button" class="btn btn-operator" id="btn-add" data-action="operator" data-value="+" aria-label="Add">+</button>
+
+        <!-- Row 5: Sign Toggle, Digit 0, Decimal & Equals -->
+        <button type="button" class="btn btn-utility" id="btn-toggle-sign" data-action="toggle-sign" aria-label="Plus or Minus Sign Toggle">±</button>
+        <button type="button" class="btn btn-digit" id="btn-0" data-action="digit" data-value="0" aria-label="0">0</button>
+        <button type="button" class="btn btn-digit" id="btn-decimal" data-action="decimal" data-value="." aria-label="Decimal Point">.</button>
+        <button type="button" class="btn btn-equals" id="btn-equals" data-action="calculate" aria-label="Equals">=</button>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Application Logic -->
+  <script src="app.js" defer></script>
+</body>
+</html>
